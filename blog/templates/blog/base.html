@@ -1,0 +1,54 @@
+{% load bootstrap4%}
+<!DOCTYPE html>
+{% load static %}
+<html lang='en'>
+
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Daniel Pawlak's Blog</title>
+    <link rel="stylesheet" href="{% static '/css/blog.css' %}">
+    {% bootstrap_css %}
+    {% bootstrap_javascript jquery='full' %}
+  </head>
+
+  <body>
+    {# Navbar #}
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <a class='navbar-brand' href="{% url 'post_list' %}">Pawlak-Tech</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+      <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        {# Everyone can see this #}
+        <ul class="navbar-nav">
+          <li class="nav-item"><a id='link' href="{% url 'about'%}">About</a></li>
+          <li class="nav-item"><a id='link'  href="https://github.com/dpawlak">Github</a></li>              
+          <li class="nav-item"><a id='link'  href="https://www.linkedin.com/in/daniel-pawlak-27b7501b5/">LinkedIn</a></li>                          
+        </ul>
+        <ul class="navbar-nav">
+        {# Must login to see this #}
+        {% if user.is_authenticated %}
+          <li class="nav-item"><a  id='link' href="{% url 'post_new' %}" >New Post</a></li>
+          <li class="nav-item"><a  id='link' href="{% url 'post_draft_list' %}">Drafts</a></li>  
+          <li class="nav-item"><a  id='link' href="{% url 'logout' %}" >Log out</a></li>
+          {# If user is not logged in, then display this #}
+          {% else %}
+            <li><a  id='link' class="nav-item" class='nav navbar-right' href="{% url 'login' %}" >Login</a></li>
+          {# End if/else #}
+          {% endif %}
+        </ul>
+      </div>
+    </nav>
+
+  {# Posts #}
+  <div class="content container">
+    <div class="row">
+      <div class="col-md-8">
+        <div class="blog_posts">
+          {% block content %}
+          {% endblock %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  </body>
+</html>

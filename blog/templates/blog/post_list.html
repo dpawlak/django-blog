@@ -1,0 +1,24 @@
+{# All posts that are displayed on main page #}
+{% extends 'blog/base.html' %}
+{% block content %}
+    <div class="centerstage">
+        {% for post in post_list %}
+            <div class='card'>
+                <div class='card-body'>
+                    <div class='card-title'>
+                        <h3><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h3>
+                        {# The time when post was published #}
+                        <p>{{ post.published_date|date:"M d, Y H:i"}}</p>
+                    </div>
+                    <hr />
+                    <div class='card-text'>
+                    <p class='postcontent' >{{ post.text|safe|linebreaksbr }}</p>
+                    </div>
+                    <hr />
+                    {# Number of comments #}
+                    <a href="{% url 'post_detail' pk=post.pk %}">Comments: {{ post.approve_comments.count }}</a>
+                </div>                
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
